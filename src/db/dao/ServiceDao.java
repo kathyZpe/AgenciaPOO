@@ -41,6 +41,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            listener.onSQLException("Error trying to create service");
         }
     }
 
@@ -72,6 +73,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            listener.onSQLException("Error tratando de obtener el servicio");
         }
 
         return newService;
@@ -95,6 +97,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            listener.onSQLException("Error tratando de actualizar el servicio");
         }
 
     }
@@ -111,6 +114,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            listener.onSQLException("Error tratando de borrar el servicio");
         }
     }
 }

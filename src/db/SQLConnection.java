@@ -7,6 +7,7 @@ import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 
 import db.statements.ServiceStatements;
+import listeners.SQLListener;
 
 public class SQLConnection {
 
@@ -15,6 +16,7 @@ public class SQLConnection {
     private final String PASSWORD = "root";
 
     private Connection connection;
+    protected SQLListener listener;
 
     public SQLConnection() {
         testDriver();
@@ -22,9 +24,16 @@ public class SQLConnection {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             Statement statement = connection.createStatement();
             statement.execute(ServiceStatements.CREATE_TABLE);
+        } catch(SQLSyntaxErrorException e) {
+            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
+            listener.onSQLException(e.getMessage());
         }
+    }
+
+    public void setSQLListener(SQLListener listener){
+        this.listener = listener;
     }
 
     public Connection getConnection() {
@@ -36,6 +45,7 @@ public class SQLConnection {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            listener.onSQLException("Error tratando de cerrar la conexion con la base de datos");
         }
     }
 
@@ -44,6 +54,7 @@ public class SQLConnection {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            listener.onSQLException(e.getMessage());
         }
 
     }
