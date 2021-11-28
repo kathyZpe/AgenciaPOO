@@ -45,4 +45,9 @@ public class Part {
     public void setUnities(int unities) {
         this.unities = unities;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

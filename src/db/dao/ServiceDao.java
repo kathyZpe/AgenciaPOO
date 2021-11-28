@@ -20,6 +20,11 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
     }
 
     @Override
+    public void fillTable() {
+
+    }
+
+    @Override
     public void save(Service service) {
         String sql = "INSERT INTO services (service_type, delivered, arrival, quit, user_name, surname, model, registration, phone, email) VALUES (?,?,?,?,?,?,?,?,?,?);";
         try {
@@ -81,6 +86,11 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
 
     @Override
     public List<Service> getAll() {
+        return null;
+    }
+
+    @Override
+    public Service getLast() {
         return null;
     }
 

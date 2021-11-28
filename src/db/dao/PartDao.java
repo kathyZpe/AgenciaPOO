@@ -3,6 +3,7 @@ package db.dao;
 import db.SQLConnection;
 import db.entities.Agency;
 import db.entities.Part;
+import db.statements.PartStatements;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,9 +14,15 @@ import java.util.List;
 
 public class PartDao extends SQLConnection implements Dao<Part> {
     private Connection connection;
+
     public PartDao() {
         super();
         connection = getConnection();
+    }
+
+    @Override
+    public void fillTable() {
+
     }
 
     @Override
@@ -47,9 +54,14 @@ public class PartDao extends SQLConnection implements Dao<Part> {
         return null;
     }
 
+    @Override
+    public Part getLast() {
+        return null;
+    }
+
     public List<Part> getAllByAgency(Agency agency){
-        String sql = "SELECT parts.id, parts.name, parts.unities, parts.price, parts.agency_id FROM parts INNER JOIN " +
-            "parts.agency_id = agency.id WHERE agency_id = ?";
+        String sql = "SELECT parts.id, parts.part_name, parts.unities, parts.price, parts.agency_id FROM parts INNER JOIN " +
+            "agencies ON parts.agency_id = agencies.id WHERE agency_id = ?";
         List<Part> partList = new ArrayList<Part>();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -57,7 +69,13 @@ public class PartDao extends SQLConnection implements Dao<Part> {
 
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                //int id = resultSet.getInt()
+                int id = resultSet.getInt(PartStatements.COLUMN_ID);
+                String name = resultSet.getString(PartStatements.COLUMN_NAME);
+                int unities = resultSet.getInt(PartStatements.COLUMN_UNITIES);
+                double price = resultSet.getDouble(PartStatements.COLUMN_PRICE);
+                int agencyId = resultSet.getInt(PartStatements.COLUMN_AGENCY);
+                Part part = new Part(id,name,unities,price,agencyId);
+                partList.add(part);
             }
             resultSet.close();
             statement.close();
@@ -65,7 +83,7 @@ public class PartDao extends SQLConnection implements Dao<Part> {
             e.printStackTrace();
             listener.onSQLException("Error trying to get all parts by agency");
         }
-        return null;
+        return partList;
     }
 
     @Override

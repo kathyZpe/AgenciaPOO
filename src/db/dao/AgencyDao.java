@@ -17,6 +17,11 @@ public class AgencyDao extends SQLConnection implements Dao<Agency> {
     }
 
     @Override
+    public void fillTable() {
+
+    }
+
+    @Override
     public void save(Agency agency) {
         String sql = "INSERT INTO agencies (agency_name) VALUES (?);";
         try {
@@ -101,6 +106,11 @@ public class AgencyDao extends SQLConnection implements Dao<Agency> {
             listener.onSQLException("Error trying to get agency by name");
         }
         return agencyList;
+    }
+
+    @Override
+    public Agency getLast() {
+        return null;
     }
 
     @Override

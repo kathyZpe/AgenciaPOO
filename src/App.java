@@ -1,6 +1,8 @@
 import db.dao.AgencyDao;
+import db.dao.PartDao;
 import db.dao.ServiceDao;
 import db.entities.Agency;
+import db.entities.Part;
 import db.entities.Service;
 import listeners.SQLListener;
 
@@ -37,7 +39,7 @@ public class App {
         getService=serviceDao.get(1);
         System.out.println("Entregado:" + getService.isDelivered());
 
-        serviceDao.delete(1);
+        //serviceDao.delete(1);
 
         getService = serviceDao.get(1);
         if(getService == null){
@@ -57,14 +59,40 @@ public class App {
         agencyDao.save(newAgency2);
         agencyDao.save(newAgency3);
 
-        List<Agency> agencyList = agencyDao.getAll(); // Obtener todas las agencias
+        // Obtener todas las agencias que contienen "ssan"
+        List<Agency> agencyList = agencyDao.getLikeName("ssan");
         for (int i = 0; i < agencyList.size(); i++) {
             System.out.println("No. "+ i + " Nombre:" + agencyList.get(i).getName() + " Id:"+agencyList.get(i).getId());
         }
 
-        agencyList = agencyDao.getLikeName("ssan"); // Obtener todas las agencias que contienen "ssan"
+        agencyList = agencyDao.getAll(); // Obtener todas las agencias
         for (int i = 0; i < agencyList.size(); i++) {
             System.out.println("No. "+ i + " Nombre:" + agencyList.get(i).getName() + " Id:"+agencyList.get(i).getId());
+        }
+
+        // Ejemplo de funcionamiento de PartDao
+        PartDao partDao = new PartDao();
+        for (int i = 0; i < agencyList.size(); i++) {
+            partDao.save( new Part(
+                "Bujia", 3, 5.30, agencyList.get(i).getId()
+            ));
+            partDao.save( new Part(
+                "Retrovisor", 3, 50.30, agencyList.get(i).getId()
+            ));
+            partDao.save( new Part(
+                "Motor", 3, 5000.30, agencyList.get(i).getId()
+            ));
+        }
+
+        // Se buscaran las piezzas de Nissan
+        Agency agency = agencyDao.get(1); // Se obtiene la agencia
+        List<Part> partList = partDao.getAllByAgency(agency); // Se buscan las piezas por la agencia obtenida
+
+        System.out.println("Busqueda de piezas de:" + agency.getName());
+        for (int i = 0; i < partList.size(); i++) {
+
+            System.out.println("No. "+ i + " Nombre:" + partList.get(i).getName() + " Id:"+partList.get(i).getId() +
+                "Precio:" + partList.get(i).getPrice() + "Unidades:" + partList.get(i).getUnities());
         }
     }
 }
