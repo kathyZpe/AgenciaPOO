@@ -90,11 +90,6 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
     }
 
     @Override
-    public Service getLast() {
-        return null;
-    }
-
-    @Override
     public void update(Service service) {
         String sql = "UPDATE services SET delivered = ? WHERE id = ?";
         try {

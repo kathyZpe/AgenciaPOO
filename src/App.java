@@ -39,7 +39,7 @@ public class App {
         getService=serviceDao.get(1);
         System.out.println("Entregado:" + getService.isDelivered());
 
-        //serviceDao.delete(1);
+        //serviceDao.delete(1); // Borrar un servicio
 
         getService = serviceDao.get(1);
         if(getService == null){
@@ -51,13 +51,13 @@ public class App {
         // Ejemplo de funcionamiento de AgencyDao
         AgencyDao agencyDao = new AgencyDao();
 
-        Agency newAgency1 = new Agency("Nissan"); // Creacion de nuevas agencias
+        /*Agency newAgency1 = new Agency("Nissan"); // Creacion de nuevas agencias
         Agency newAgency2 = new Agency("Miaussan");
         Agency newAgency3 = new Agency("Chevrolet");
 
         agencyDao.save(newAgency1);
         agencyDao.save(newAgency2);
-        agencyDao.save(newAgency3);
+        agencyDao.save(newAgency3);*/
 
         // Obtener todas las agencias que contienen "ssan"
         List<Agency> agencyList = agencyDao.getLikeName("ssan");
@@ -72,7 +72,7 @@ public class App {
 
         // Ejemplo de funcionamiento de PartDao
         PartDao partDao = new PartDao();
-        for (int i = 0; i < agencyList.size(); i++) {
+        /*for (int i = 0; i < agencyList.size(); i++) {
             partDao.save( new Part(
                 "Bujia", 3, 5.30, agencyList.get(i).getId()
             ));
@@ -82,7 +82,7 @@ public class App {
             partDao.save( new Part(
                 "Motor", 3, 5000.30, agencyList.get(i).getId()
             ));
-        }
+        }*/
 
         // Se buscaran las piezzas de Nissan
         Agency agency = agencyDao.get(1); // Se obtiene la agencia

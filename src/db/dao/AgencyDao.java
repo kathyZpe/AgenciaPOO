@@ -14,11 +14,16 @@ public class AgencyDao extends SQLConnection implements Dao<Agency> {
     public AgencyDao() {
         super();
         connection = getConnection();
+        fillTable();
     }
 
     @Override
     public void fillTable() {
-
+        if(tableIsEmpty(AgencyStatements.TABLE_NAME)){
+            save(new Agency("Nissan"));
+            save(new Agency("Miaussan"));
+            save(new Agency("Chevrolet"));
+        }
     }
 
     @Override
@@ -106,11 +111,6 @@ public class AgencyDao extends SQLConnection implements Dao<Agency> {
             listener.onSQLException("Error trying to get agency by name");
         }
         return agencyList;
-    }
-
-    @Override
-    public Agency getLast() {
-        return null;
     }
 
     @Override

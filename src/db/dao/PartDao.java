@@ -18,11 +18,24 @@ public class PartDao extends SQLConnection implements Dao<Part> {
     public PartDao() {
         super();
         connection = getConnection();
+        fillTable();
     }
 
     @Override
     public void fillTable() {
-
+        if(tableIsEmpty(PartStatements.TABLE_NAME)){
+            for (int i = 0; i < 3; i++) {
+                save( new Part(
+                    "Bujia", 3, 5.30, i + 1
+                ));
+                save( new Part(
+                    "Retrovisor", 3, 50.30, i + 1
+                ));
+                save( new Part(
+                    "Motor", 3, 5000.30, i + 1
+                ));
+            }
+        }
     }
 
     @Override
@@ -51,11 +64,6 @@ public class PartDao extends SQLConnection implements Dao<Part> {
 
     @Override
     public List<Part> getAll() {
-        return null;
-    }
-
-    @Override
-    public Part getLast() {
         return null;
     }
 
