@@ -22,9 +22,8 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
     @Override
     public void save(Service service) {
         String sql = "INSERT INTO services (service, delivered, arrival, quit, user_name, surname, model, registration, phone, email) VALUES (?,?,?,?,?,?,?,?,?,?);";
-        PreparedStatement statement;
         try {
-            statement = connection.prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, service.getService());
             statement.setBoolean(2, service.isDelivered());
             statement.setDate(3, service.getArrival());
@@ -52,6 +51,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
+
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int temp_id = resultSet.getInt(ServiceStatements.COLUMN_ID);
@@ -69,8 +69,8 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
                 newService = new Service(temp_id, service, delivered, arrival, quit, name, surname, model, registration,
                         phone, email);
             }
-            statement.close();
             resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
             listener.onSQLException("Error tratando de obtener el servicio");

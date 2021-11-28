@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 
+import db.statements.AgencyStatements;
 import db.statements.ServiceStatements;
 import listeners.SQLListener;
 
@@ -24,6 +25,9 @@ public class SQLConnection {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             Statement statement = connection.createStatement();
             statement.execute(ServiceStatements.CREATE_TABLE);
+            statement.execute(AgencyStatements.CREATE_TABLE);
+
+            statement.close();
         } catch(SQLSyntaxErrorException e) {
             e.printStackTrace();
         } catch (SQLException e) {

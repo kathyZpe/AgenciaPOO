@@ -10,6 +10,7 @@ public class Agency {
     }
 
     public Agency(String name) {
+        this.id = 0;
         this.name = name;
     }
 
@@ -18,6 +19,11 @@ public class Agency {
     }
 
     public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
         return name;
     }
 }
