@@ -3,7 +3,7 @@ package db.statements;
 public class ServiceStatements {
     public static final String TABLE_NAME = "services";
     public static final String COLUMN_ID = "id";
-    public static final String COLUMN_TYPE = "service";
+    public static final String COLUMN_TYPE = "service_type";
     public static final String COLUMN_DELIVERED = "delivered";
     public static final String COLUMN_ARRIVAL = "arrival";
     public static final String COLUMN_QUIT = "quit";

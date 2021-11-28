@@ -90,8 +90,8 @@ public class AgencyDao extends SQLConnection implements Dao<Agency> {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 int temp_id = resultSet.getInt(AgencyStatements.COLUMN_ID);
-                String temp_name = resultSet.getString(AgencyStatements.COLUMN_NAME);
-                Agency agency = new Agency(temp_id, temp_name);
+                String name = resultSet.getString(AgencyStatements.COLUMN_NAME);
+                Agency agency = new Agency(temp_id, name);
                 agencyList.add(agency);
             }
             resultSet.close();

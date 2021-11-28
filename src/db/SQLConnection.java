@@ -7,6 +7,7 @@ import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 
 import db.statements.AgencyStatements;
+import db.statements.PartStatements;
 import db.statements.ServiceStatements;
 import listeners.SQLListener;
 
@@ -26,10 +27,12 @@ public class SQLConnection {
             Statement statement = connection.createStatement();
             statement.execute(ServiceStatements.CREATE_TABLE);
             statement.execute(AgencyStatements.CREATE_TABLE);
+            statement.execute(PartStatements.CREATE_TABLE);
 
             statement.close();
         } catch(SQLSyntaxErrorException e) {
             e.printStackTrace();
+            listener.onSQLException(e.getMessage());
         } catch (SQLException e) {
             e.printStackTrace();
             listener.onSQLException(e.getMessage());
