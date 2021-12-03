@@ -1,5 +1,9 @@
 package db.entities;
 
+/*
+ * Clase para la creación de objetos con los atributos que puede contener una Refaccion conforme a la base de datos
+ * */
+
 public class Part {
     private int id;
     private String name;

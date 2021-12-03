@@ -1,5 +1,9 @@
 package db.statements;
 
+/*
+* Clase con todos los nombres de columnas para ser usado en peticiones y la sentencia de SQL para crear la tabla
+* */
+
 public class AgencyStatements {
     public static final String TABLE_NAME = "agencies";
     public static final String COLUMN_ID = "id";

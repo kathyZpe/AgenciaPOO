@@ -11,6 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/*
+ * Clase que hereda SQLConnection e implementa la interface Dao especificando el uso de la clase Service para los
+ * objetos
+ * */
+
 public class ServiceDao extends SQLConnection implements Dao<Service> {
     private Connection connection;
 
@@ -26,6 +31,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
 
     @Override
     public void save(Service service) {
+        // Guarda el objeto de tipo Service en la base de datos
         String sql = "INSERT INTO services (service_type, delivered, arrival, quit, user_name, surname, model, registration, phone, email) VALUES (?,?,?,?,?,?,?,?,?,?);";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -51,7 +57,8 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
 
     @Override
     public Service get(int id) {
-        Service newService = null;
+        // Devuelve objeto de tipo Service con los datos de la columna que coincide con el id
+        Service service = null;
         String sql = "SELECT * FROM services WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -60,7 +67,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int temp_id = resultSet.getInt(ServiceStatements.COLUMN_ID);
-                int service = resultSet.getInt(ServiceStatements.COLUMN_TYPE);
+                int typeService = resultSet.getInt(ServiceStatements.COLUMN_TYPE);
                 boolean delivered = resultSet.getBoolean(ServiceStatements.COLUMN_DELIVERED);
                 Date arrival = resultSet.getDate(ServiceStatements.COLUMN_ARRIVAL);
                 Date quit = resultSet.getDate(ServiceStatements.COLUMN_QUIT);
@@ -71,7 +78,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
                 String phone = resultSet.getString(ServiceStatements.COLUMN_PHONE);
                 String email = resultSet.getString(ServiceStatements.COLUMN_EMAIL);
 
-                newService = new Service(temp_id, service, delivered, arrival, quit, name, surname, model, registration,
+                service = new Service(temp_id, typeService, delivered, arrival, quit, name, surname, model, registration,
                         phone, email);
             }
             resultSet.close();
@@ -81,7 +88,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
             listener.onSQLException("Error tratando de obtener el servicio");
         }
 
-        return newService;
+        return service;
     }
 
     @Override
@@ -91,6 +98,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
 
     @Override
     public void update(Service service) {
+        // Actualiza el estado de entrega del registro, usando el id del objeto para identificar la columna
         String sql = "UPDATE services SET delivered = ? WHERE id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -108,6 +116,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
 
     @Override
     public void delete(int id) {
+        // Borra la columna de la tabla que coincida con el id proporcionado
         String sql = "DELETE FROM services WHERE id = ?;";
         PreparedStatement statement;
         try {

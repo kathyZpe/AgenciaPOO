@@ -2,6 +2,11 @@ package db.entities;
 
 import java.sql.Date;
 
+/*
+ * Clase para la creación de objetos con los atributos que puede contener un registro de servicio conforme
+ * a la base de datos
+ * */
+
 public class Service {
     private int id;
     private int service;

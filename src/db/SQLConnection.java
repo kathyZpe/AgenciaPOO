@@ -17,6 +17,10 @@ public class SQLConnection {
     protected SQLListener listener;
 
     public SQLConnection() {
+        /*
+        * Constructor de clase clase SQLConnection encargado de crear la conexion con la
+        * base de datos
+        * */
         testDriver();
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -34,11 +38,17 @@ public class SQLConnection {
         this.listener = listener;
     }
 
-    public Connection getConnection() {
+    protected Connection getConnection() {
+        /*
+        * Devuelve la conexión actual creada
+        * */
         return connection;
     }
 
     public void close() {
+        /*
+        * Cierra la conexion con la base de datos creada
+        * */
         try {
             connection.close();
         } catch (SQLException e) {
@@ -48,6 +58,10 @@ public class SQLConnection {
     }
 
     protected boolean tableIsEmpty(String tableName){
+        /*
+        * Comprueba si la tabla pasada como parametro se encuentra vacia realizando un conteo de elementos de
+        * la misma tabla dentro de la base de datos
+        * */
         String sql = "SELECT COUNT(*) FROM " + tableName +" WHERE id = 1;";
         boolean isEmpty = true;
         try {
@@ -67,6 +81,10 @@ public class SQLConnection {
     }
 
     private boolean tableExists(String tableName){
+        /*
+        * Comprueba la existencia de la tabla pasada como parametro en la base de datos por medio de la obtencion
+        * de metadata de la misma
+        * */
         boolean exists = false;
         try {
             DatabaseMetaData metaData = connection.getMetaData();
@@ -83,6 +101,10 @@ public class SQLConnection {
     }
 
     private void fillDatabase(){
+        /*
+        * Comprueba si cada una de las tablas necesarias existen en la base dedatos, en caso contrario,
+        * creara la tabla que faltante
+        * */
         try {
             Statement statement = connection.createStatement();
 
@@ -107,6 +129,7 @@ public class SQLConnection {
     }
 
     private void testDriver() {
+        // Prueba el driver de MySQL JDBC
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
