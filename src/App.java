@@ -1,98 +1,25 @@
-import db.dao.AgencyDao;
-import db.dao.PartDao;
-import db.dao.ServiceDao;
-import db.entities.Agency;
-import db.entities.Part;
-import db.entities.Service;
-import listeners.SQLListener;
-
-import java.sql.Date;
-import java.util.List;
+import listeners.AddClientListener;
+import windows.AddClientWindow;
 
 public class App {
     public static void main(String[] args) {
-
-        // Ejemplo de funcionamiento de clase DAO;
-        long now = System.currentTimeMillis();
-        Date dateNow = new Date(now);
-        Date dateTomorrow = Date.valueOf("2020-12-26");
-        // Creacion de nuevo de servicio
-        Service service = new Service(0, dateNow, dateTomorrow, "Gamaliel", "Garcia", "Nissa", "0000XXX",
-                "5951140476", "egamagz@hotmail.com");
-
-        ServiceDao serviceDao = new ServiceDao();
-        serviceDao.setSQLListener(new SQLListener() {
+        AddClientWindow window = new AddClientWindow();
+        window.setAddClientListener(new AddClientListener() {
             @Override
-            public void onSQLException(String msg) {
-                // Listener para cuando haya alguna exception con la base de datos
-                // devuelve lo que es un mensaje relacionado con el error
-                System.out.println(msg);
+            public void OnCancel() {
+                System.out.println("Cerrada la ventana");
+            }
+
+            @Override
+            public void OnAdd(String name, String surname, String model, String registration, String phone, String email) {
+                System.out.println(name);
+                System.out.println(surname);
+                System.out.println(model);
+                System.out.println(registration);
+                System.out.println(phone);
+                System.out.println(email);
             }
         });
-        serviceDao.save(service);
-        Service getService = serviceDao.get(1); // Obtener servicio por ID
-        System.out.println("Entregado:" + getService.isDelivered());
-
-        getService.setDelivered(true); // Establece como entrago el servicio
-        serviceDao.update(getService);
-
-        getService=serviceDao.get(1);
-        System.out.println("Entregado:" + getService.isDelivered());
-
-        //serviceDao.delete(1); // Borrar un servicio
-
-        getService = serviceDao.get(1);
-        if(getService == null){
-            System.out.println("Servicio borrado");
-        }
-
-        serviceDao.close(); // Se cierra conexion con base de datos
-
-        // Ejemplo de funcionamiento de AgencyDao
-        AgencyDao agencyDao = new AgencyDao();
-
-        /*Agency newAgency1 = new Agency("Nissan"); // Creacion de nuevas agencias
-        Agency newAgency2 = new Agency("Miaussan");
-        Agency newAgency3 = new Agency("Chevrolet");
-
-        agencyDao.save(newAgency1);
-        agencyDao.save(newAgency2);
-        agencyDao.save(newAgency3);*/
-
-        // Obtener todas las agencias que contienen "ssan"
-        List<Agency> agencyList = agencyDao.getLikeName("ssan");
-        for (int i = 0; i < agencyList.size(); i++) {
-            System.out.println("No. "+ i + " Nombre:" + agencyList.get(i).getName() + " Id:"+agencyList.get(i).getId());
-        }
-
-        agencyList = agencyDao.getAll(); // Obtener todas las agencias
-        for (int i = 0; i < agencyList.size(); i++) {
-            System.out.println("No. "+ i + " Nombre:" + agencyList.get(i).getName() + " Id:"+agencyList.get(i).getId());
-        }
-
-        // Ejemplo de funcionamiento de PartDao
-        PartDao partDao = new PartDao();
-        /*for (int i = 0; i < agencyList.size(); i++) {
-            partDao.save( new Part(
-                "Bujia", 3, 5.30, agencyList.get(i).getId()
-            ));
-            partDao.save( new Part(
-                "Retrovisor", 3, 50.30, agencyList.get(i).getId()
-            ));
-            partDao.save( new Part(
-                "Motor", 3, 5000.30, agencyList.get(i).getId()
-            ));
-        }*/
-
-        // Se buscaran las piezzas de Nissan
-        Agency agency = agencyDao.get(1); // Se obtiene la agencia
-        List<Part> partList = partDao.getAllByAgency(agency); // Se buscan las piezas por la agencia obtenida
-
-        System.out.println("Busqueda de piezas de:" + agency.getName());
-        for (int i = 0; i < partList.size(); i++) {
-
-            System.out.println("No. "+ i + " Nombre:" + partList.get(i).getName() + " Id:"+partList.get(i).getId() +
-                "Precio:" + partList.get(i).getPrice() + "Unidades:" + partList.get(i).getUnities());
-        }
+        window.run();
     }
 }
