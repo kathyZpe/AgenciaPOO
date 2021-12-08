@@ -57,7 +57,7 @@ public class ServiceDao extends SQLConnection implements Dao<Service> {
 
     @Override
     public Service get(int id) {
-        // Devuelve objeto de tipo Service con los datos de la columna que coincide con el id
+        // Devuelve objeto de tipo Service con los datos de la columna que coincida con el id
         Service service = null;
         String sql = "SELECT * FROM services WHERE id = ?";
         try {

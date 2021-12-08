@@ -52,6 +52,6 @@ public class Part {
 
     @Override
     public String toString() {
-        return name;
+        return name + "-" + unities;
     }
 }

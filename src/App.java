@@ -1,10 +1,19 @@
+import db.entities.Service;
 import listeners.AddClientListener;
 import windows.AddClientWindow;
 import windows.ProviderWindow;
 
+import java.sql.Date;
+
 public class App {
     public static void main(String[] args) {
-        ProviderWindow window = new ProviderWindow();
+        long now = System.currentTimeMillis();
+        Date dateNow = new Date(now);
+        Date dateTomorrow = Date.valueOf("2021-12-10");
+        Service service = new Service(0, dateNow, dateTomorrow, "Gamaliel", "Garcia", "Nissa", "0000XXX",
+            "5951140476", "egamagz@hotmail.com");
+
+        ProviderWindow window = new ProviderWindow(service);
         window.run();
     }
 }

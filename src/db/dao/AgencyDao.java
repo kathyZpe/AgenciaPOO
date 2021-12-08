@@ -53,7 +53,7 @@ public class AgencyDao extends SQLConnection implements Dao<Agency> {
 
     @Override
     public Agency get(int id) {
-        // Devuelve objeto de tipo Agency con los datos de la columna que coincide con el id
+        // Devuelve objeto de tipo Agency con los datos de la columna que coincida con el id
         Agency agency = null;
         String sql = "SELECT * FROM agencies WHERE id = ?";
         try {

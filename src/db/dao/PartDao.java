@@ -68,7 +68,30 @@ public class PartDao extends SQLConnection implements Dao<Part> {
 
     @Override
     public Part get(int id) {
-        return null;
+        // Devuelve objeto de tipo Part con los datos de la columna que coincida con el id
+        Part part = null;
+        String sql = "SELECT * FROM parts WHERE id = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()) {
+                int temp_id = resultSet.getInt(PartStatements.COLUMN_ID);
+                String name = resultSet.getString(PartStatements.COLUMN_NAME);
+                int unities = resultSet.getInt(PartStatements.COLUMN_UNITIES);
+                double price = resultSet.getDouble(PartStatements.COLUMN_PRICE);
+                int agencyId = resultSet.getInt(PartStatements.COLUMN_AGENCY);
+
+                part = new Part(temp_id, name, unities, price, agencyId);
+            }
+            resultSet.close();
+            statement.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+            listener.onSQLException("Error trying to get part");
+        }
+        return part;
     }
 
     @Override
